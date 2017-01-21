@@ -3,6 +3,7 @@ import sys
 import json
 import re
 import requests
+import Calculator
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -39,18 +40,19 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
                     try:
-                        songRegex = re.compile(r'(.*),(.*)')
-                        song = songRegex.search(message_text)
-                        artist,song = song.group(1), song.group(2)
-                        artist = artist.split()
-                        song = song.split()
-                        path = "https://genius.com/"
-                        for word in artist:
-                            path += word + "-"
-                        for word in song:
-                            path += word + "-"
-                        path += "lyrics"
-                        send_message(sender_id, path)
+                        # songRegex = re.compile(r'(.*),(.*)')
+                        # song = songRegex.search(message_text)
+                        # artist,song = song.group(1), song.group(2)
+                        # artist = artist.split()
+                        # song = song.split()
+                        # path = "https://genius.com/"
+                        # for word in artist:
+                        #     path += word + "-"
+                        # for word in song:
+                        #     path += word + "-"
+                        # path += "lyrics"
+                        answer = Calculator.eval_infix(message_text,0)
+                        send_message(sender_id, answer)
                     except:
                         send_message(sender_id, "got it, thanks!")
 
