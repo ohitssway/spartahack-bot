@@ -1,4 +1,7 @@
 class Calculator:
+    def __init__(self):
+        self.expr = ""
+        self.pos = 0
     def eval_infix_sum(self,expr, pos):
        expr = self.eval_infix_factor(expr, pos)    #returns the expression after it evaluates all the expressions in between parentheses.
        expr = self.eval_infix_product(expr,pos)    #returns the expression after all multiplication and division operators

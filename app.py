@@ -3,8 +3,9 @@ import sys
 import json
 import re
 import requests
-import Calculator
+from calculator import Calculator
 from flask import Flask, request
+
 
 app = Flask(__name__)
 
@@ -51,7 +52,7 @@ def webhook():
                         # for word in song:
                         #     path += word + "-"
                         # path += "lyrics"
-                        answer = Calculator.eval_infix_list(message_text,0)
+                        answer = Calculator.eval_infix(Calculator(),message_text)
                         send_message(sender_id, answer)
                     except:
                         send_message(sender_id, "got it, thanks!")
