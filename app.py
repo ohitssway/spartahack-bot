@@ -51,7 +51,7 @@ def webhook():
                         # for word in song:
                         #     path += word + "-"
                         # path += "lyrics"
-                        answer = Calculator.eval_infix(message_text,0)
+                        answer = Calculator.eval_infix_list(message_text,0)
                         send_message(sender_id, answer)
                     except:
                         send_message(sender_id, "got it, thanks!")
