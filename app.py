@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-
+import re
 import requests
 from flask import Flask, request
 
@@ -38,8 +38,21 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-
-                    send_message(sender_id, "got it, thanks!")
+                    try:
+                        songRegex = re.compile(r'(.*),(.*)')
+                        song = songRegex.search(message_text)
+                        artist,song = song.group(1), song.group(2)
+                        artist = artist.split()
+                        song = song.split()
+                        path = "https://genius.com/"
+                        for word in artist:
+                            path += word + "-"
+                        for word in song:
+                            path += word + "-"
+                        path += "lyrics"
+                        send_message(sender_id, path)
+                    except:
+                        send_message(sender_id, "got it, thanks!")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
