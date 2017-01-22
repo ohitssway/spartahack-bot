@@ -9,7 +9,19 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-
+def song_request(messagetext):
+    songRegex = re.compile(r'(.*),(.*)')
+    song = songRegex.search(messagetext)
+    artist,song = song.group(1), song.group(2)
+    artist = artist.split()
+    song = song.split()
+    path = "https://genius.com/"
+    for word in artist:
+        path += word + "-"
+    for word in song:
+        path += word + "-"
+    path += "lyrics"
+    return path
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
@@ -40,21 +52,12 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    try:
-                        # songRegex = re.compile(r'(.*),(.*)')
-                        # song = songRegex.search(message_text)
-                        # artist,song = song.group(1), song.group(2)
-                        # artist = artist.split()
-                        # song = song.split()
-                        # path = "https://genius.com/"
-                        # for word in artist:
-                        #     path += word + "-"
-                        # for word in song:
-                        #     path += word + "-"
-                        # path += "lyrics"
+                    if any(token in message_text for token in ['(',')','*','/','+','-','%']):
                         answer = Calculator.eval_infix(Calculator(),message_text)
                         send_message(sender_id, answer)
-                    except:
+                    elif ',' in message_text:
+                        send_message(sender_id, song_request(message_text))
+                    else:
                         send_message(sender_id, "got it, thanks!")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
