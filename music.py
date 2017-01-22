@@ -1,4 +1,7 @@
 import re
+import urllib
+import urllib2
+from bs4 import BeautifulSoup
 class Music:
     def __init__(self):
         self.messagetext = ''
@@ -17,3 +20,21 @@ class Music:
         path += "lyrics"
         
         return path
+    def youtube_video_request(self,messagetext):
+        videoRegex = re.compile(r'.*')
+        video = videoRegex.search(messagetext)
+        video = video.group(0)
+        path = "https://www.youtube.com/results?search_query="
+        
+        for word in video:
+            path += word + "+"
+        path = path[:-1]
+        
+        response = urllib.urlopen(path)
+        html = response.read()
+        soup = BeautifulSoup(html)
+        videoList = []
+        for vid in soup.findAll(attrs={'class':'yt-uix-tile-link'}):
+            videoList.append('https://www.youtube.com' + vid['href'])
+        return videoList[0]
+Music.youtube_video_request(Music(),"the needle drop")
