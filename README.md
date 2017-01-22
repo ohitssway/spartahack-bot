@@ -1,4 +1,4 @@
-#SpartaHack 2017 Bot
+#swaymun
 
 ##About
 
