@@ -58,8 +58,6 @@ def webhook():
                         send_message(sender_id,video)
                     elif message_text.lower() == 'help':
                         send_message(sender_id, 'calculator\ngenius\nyoutube\nzork\nhelp')
-                    elif message_text.lower() == 'zork':
-                        send_message(sender_id, Zork())
                     else:
                         send_message(sender_id, "Command not found")
 
