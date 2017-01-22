@@ -48,13 +48,15 @@ def webhook():
                         command, message = '',''
                         
                     if command == 'calculator':
-                        answer = Calculator.eval_infix(Calculator(),message_text)
+                        answer = Calculator.eval_infix(Calculator(),message)
                         send_message(sender_id, answer)
                     elif command == 'genius':
-                        lyrics = Music.genius_song_request(Music(),message_text)
+                        lyrics = Music.genius_song_request(Music(),message)
                         send_message(sender_id, lyrics)
+                    elif message_text.lower() == 'help':
+                        send_message(sender_id, 'calculator\ngenius\nhelp')
                     else:
-                        send_message(sender_id, "got it, thanks!")
+                        send_message(sender_id, "Command not found")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
