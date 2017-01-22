@@ -6,7 +6,7 @@ import requests
 from calculator import Calculator
 from music import Music
 from flask import Flask, request
-
+from zork import Zork
 
 app = Flask(__name__)
     
@@ -57,7 +57,9 @@ def webhook():
                         video = Music.youtube_video_request(Music(),message)
                         send_message(sender_id,video)
                     elif message_text.lower() == 'help':
-                        send_message(sender_id, 'calculator\ngenius\nyoutube\nhelp')
+                        send_message(sender_id, 'calculator\ngenius\nyoutube\nzork\nhelp')
+                    elif message_text.lower() == 'zork':
+                        send_message(sender_id, Zork())
                     else:
                         send_message(sender_id, "Command not found")
 
