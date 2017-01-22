@@ -54,7 +54,7 @@ def webhook():
                         lyrics = Music.genius_song_request(Music(),message)
                         send_message(sender_id, lyrics)
                     elif command == 'youtube':
-                        video = Music.youtube_video_request(Music(),"message")
+                        video = Music.youtube_video_request(Music(),message)
                         send_message(sender_id,video)
                     elif message_text.lower() == 'help':
                         send_message(sender_id, 'calculator\ngenius\nyoutube\nhelp')
