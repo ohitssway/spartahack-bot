@@ -37,4 +37,3 @@ class Music:
         for vid in soup.findAll(attrs={'class':'yt-uix-tile-link'}):
             videoList.append('https://www.youtube.com' + vid['href'])
         return videoList[0]
-Music.youtube_video_request(Music(),)
