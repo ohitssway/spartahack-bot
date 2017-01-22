@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import re
+import urllib
 import requests
 from calculator import Calculator
 from music import Music
@@ -55,6 +56,17 @@ def webhook():
                     elif command == 'youtube':
                         video = Music.youtube_video_request(Music(),message)
                         send_message(sender_id,video)
+                    elif command == 'wolframalpha':
+                        waRegex = re.compile(r'.*')
+                        wa = waRegex.search(messagetext)
+                        wa = wa.group(0)
+                        inputWA = ""
+                        for word in wa.split():
+                            inputWA += str(word) + "+"
+                        inputWA = inputWA[:-1]
+                        result = urllib.urlopen("https://api.wolframalpha.com/v1/result?input=" + inputWA + "&appid=E8J5VX-2AW62LL8UH")
+                        for line in result:
+                            send_message(sender_id,line)
                     elif message_text.lower() == 'help':
                         send_message(sender_id, 'calculator\ngenius\nyoutube\nhelp')
                     else:
