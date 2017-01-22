@@ -6,17 +6,14 @@ class Music:
     def __init__(self):
         self.messagetext = ''
     def genius_song_request(self,messagetext):
-        songRegex = re.compile(r'(.*),(.*)')
+        songRegex = re.compile(r'.*')
         song = songRegex.search(messagetext)
-        artist,song = song.group(1), song.group(2)
-        artist = artist.split()
-        song = song.split()
+        song = song.group(0)
         path = "https://genius.com/"
         
-        for word in artist:
-            path += word + "-"
         for word in song:
             path += word + "-"
+        path = path[:-1]
         path += "lyrics"
         
         return path
