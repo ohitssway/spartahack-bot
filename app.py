@@ -4,24 +4,12 @@ import json
 import re
 import requests
 from calculator import Calculator
+from music import Music
 from flask import Flask, request
 
 
 app = Flask(__name__)
-
-def song_request(messagetext):
-    songRegex = re.compile(r'(.*),(.*)')
-    song = songRegex.search(messagetext)
-    artist,song = song.group(1), song.group(2)
-    artist = artist.split()
-    song = song.split()
-    path = "https://genius.com/"
-    for word in artist:
-        path += word + "-"
-    for word in song:
-        path += word + "-"
-    path += "lyrics"
-    return path
+    
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
@@ -41,7 +29,7 @@ def webhook():
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
-
+    
     if data["object"] == "page":
 
         for entry in data["entry"]:
@@ -52,11 +40,19 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    if any(token in message_text for token in ['(',')','*','/','+','-','%']):
+                    
+                    try:
+                        command, message = message_text.split(':')
+                        command = ''.join(command.strip()).lower()
+                    except:
+                        command, message = '',''
+                        
+                    if command == 'calculator':
                         answer = Calculator.eval_infix(Calculator(),message_text)
                         send_message(sender_id, answer)
-                    elif ',' in message_text:
-                        send_message(sender_id, song_request(message_text))
+                    elif command == 'genius':
+                        lyrics = Music.genius_song_request(Music(),message_text)
+                        send_message(sender_id, lyrics)
                     else:
                         send_message(sender_id, "got it, thanks!")
 
