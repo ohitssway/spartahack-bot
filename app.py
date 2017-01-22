@@ -57,7 +57,7 @@ def webhook():
                         video = Music.youtube_video_request(Music(),message)
                         send_message(sender_id,video)
                     elif message_text.lower() == 'help':
-                        send_message(sender_id, 'calculator\ngenius\nyoutube\nzork\nhelp')
+                        send_message(sender_id, 'calculator\ngenius\nyoutube\nhelp')
                     else:
                         send_message(sender_id, "Command not found")
 
