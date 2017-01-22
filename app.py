@@ -67,6 +67,8 @@ def webhook():
                         result = urllib.urlopen("https://api.wolframalpha.com/v1/result?input=" + inputWA + "&appid=E8J5VX-2AW62LL8UH")
                         for line in result:
                             send_message(sender_id,line)
+                    elif message_text.lower() in ['hi','hello','hey']:
+                        send_message(sender_id,"Hi, I am swaymun, a messenger bot coded in Python")
                     elif message_text.lower() == 'help':
                         send_message(sender_id, 'Calculator: Expresssion to calculate\nGenius: Artist Song Name\nYoutube: Search for a Video\nWolframAlpha: Ask a question\nhelp')
                     else:
