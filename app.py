@@ -68,7 +68,7 @@ def webhook():
                         for line in result:
                             send_message(sender_id,line)
                     elif message_text.lower() == 'help':
-                        send_message(sender_id, 'calculator\ngenius\nyoutube\nwolframalpha\nhelp')
+                        send_message(sender_id, 'Calculator: Expresssion to calculate\nGenius: Artist Song Name\nYoutube: Search for a Video\nWolframAlpha: Ask a question\nhelp')
                     else:
                         send_message(sender_id, "Command not found")
 
