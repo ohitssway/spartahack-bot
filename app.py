@@ -50,8 +50,11 @@ def webhook():
                         answer = Calculator.eval_infix(Calculator(),message)
                         send_message(sender_id, answer)
                     elif command == 'genius':
-                        lyrics = Music.genius_song_request(Music(),message)
-                        send_message(sender_id, lyrics)
+                        try:
+                            lyrics = Music.genius_song_request(Music(),message)
+                            send_message(sender_id, lyrics)
+                        except:
+                            
                     elif command == 'youtube':
                         video = Music.youtube_video_request(Music(),message)
                         send_message(sender_id,video)

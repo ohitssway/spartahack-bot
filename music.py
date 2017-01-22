@@ -11,9 +11,8 @@ class Music:
         song = song.group(0)
         path = "https://genius.com/"
         
-        for word in song:
-            path += word + "-"
-        path = path[:-1]
+        for word in song.split():
+            path += str(word) + "-"
         path += "lyrics"
         
         return path
@@ -23,8 +22,9 @@ class Music:
         video = video.group(0)
         path = "https://www.youtube.com/results?search_query="
         
-        for word in video:
-            path += word + "+"
+        for word in video.split():
+            path += str(word) + "+"
+        
         path = path[:-1]
         
         response = urllib.urlopen(path)
